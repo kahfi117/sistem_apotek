@@ -7,29 +7,14 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Dashboard</h4>
+                        <h4 class="mb-sm-0">Analisis ABC</h4>
 
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Apotek Gisella Farma</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
-                            </ol>
-                        </div>
+
 
                     </div>
                 </div>
             </div>
             <!-- end page title -->
-
-            @php
-                $data = App\Models\InvoiceDetail::with('product')
-                    ->selectRaw('sum(selling_qty) as qty, sum(selling_price) as price, product_id')
-                    ->groupBy('product_id')
-                    ->orderBy('price', 'desc')
-                    ->get();
-
-                $totalPendapatan = App\Models\InvoiceDetail::selectRaw('sum(selling_price) as price')->first()->price;
-            @endphp
 
             <div class="row">
                 <div class="col-12">
@@ -56,7 +41,7 @@
                                     @foreach ($data as $key => $item)
                                         @php
 
-                                            $kumulatif = $pendapatan + ($item->price / $totalPendapatan) * 100;
+                                            $kumulatif = $pendapatan + ($item->price/$totalPendapatan)*100;
 
                                         @endphp
 
@@ -64,27 +49,31 @@
                                             <td> {{ $key + 1 }} </td>
                                             <td> {{ $item['product']['name'] }} </td>
                                             <td> {{ $item->qty }} </td>
-                                            <td> Rp. {{ number_format($item->price, 2, ',', '.') }} </td>
-                                            <td> {{ number_format(($item->price / $totalPendapatan) * 100, 3) }}</td>
-                                            <td> {{ number_format($kumulatif, 3) }}</td>
+                                            <td> Rp. {{ number_format($item->price,2,',','.') }} </td>
+                                            <td> {{ number_format(($item->price/$totalPendapatan)*100 , 3) }}</td>
+                                            <td> {{  number_format($kumulatif,3) }}</td>
                                             @if ($kumulatif < 80)
-                                                <td>
-                                                    <button class="btn btn-success">
-                                                        A
-                                                    </button>
-                                                </td>
+                                            <td>
+                                                <button class="btn btn-success">
+                                                    A
+                                                </button>
+                                            </td>
                                             @elseif ($kumulatif >= 80 && $kumulatif <= 95)
-                                                <td>
-                                                    <button class="btn btn-warning">
-                                                        B
-                                                    </button>
-                                                </td>
+
+                                            <td>
+                                                <button class="btn btn-warning">
+                                                    B
+                                                </button>
+                                            </td>
+
                                             @else
-                                                <td>
-                                                    <button class="btn btn-secondary">
-                                                        C
-                                                    </button>
-                                                </td>
+
+                                            <td>
+                                                <button class="btn btn-secondary">
+                                                    C
+                                                </button>
+                                            </td>
+
                                             @endif
 
                                         </tr>
@@ -105,5 +94,7 @@
             </div> <!-- end row -->
 
 
-        </div>
-    @endsection
+
+        </div> <!-- container-fluid -->
+    </div>
+@endsection

@@ -10,11 +10,11 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">Add Supplier Page </h4><br><br>
+                            <h4 class="card-title">Tambah User</h4><br><br>
 
 
 
-                            <form method="post" action="{{ route('supplier.store') }}" id="myForm">
+                            <form method="post" action="{{ route('user.store') }}" id="myForm">
                                 @csrf
 
                                 <div class="row mb-3">
@@ -23,17 +23,13 @@
                                         <input name="name" class="form-control" type="text">
                                     </div>
                                 </div>
-                                <!-- end row -->
-
 
                                 <div class="row mb-3">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">No Hp </label>
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Username </label>
                                     <div class="form-group col-sm-10">
-                                        <input name="mobile_no" class="form-control" type="text">
+                                        <input name="username" class="form-control" type="text">
                                     </div>
                                 </div>
-                                <!-- end row -->
-
 
                                 <div class="row mb-3">
                                     <label for="example-text-input" class="col-sm-2 col-form-label">Email </label>
@@ -41,20 +37,35 @@
                                         <input name="email" class="form-control" type="email">
                                     </div>
                                 </div>
-                                <!-- end row -->
-
 
                                 <div class="row mb-3">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Alamat
-                                    </label>
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Role </label>
                                     <div class="form-group col-sm-10">
-                                        <input name="address" class="form-control" type="text">
+                                        <select name="role" id="" class="form-control">
+                                            <option value="">-- Pilih Role --</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="manajer">Manajer</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <!-- end row -->
+
+                                <div class="form-group mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Password </label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="password" type="password" name="password" required="" placeholder="Password">
+                                    </div>
+                                </div>
 
 
-                                <input type="submit" class="btn btn-info waves-effect waves-light" value="Tambah Supplier">
+                                 <div class="form-group mb-3 row">
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Password Confirm </label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="password_confirmation" type="password" name="password_confirmation" required="" placeholder="Password Confirmation">
+                                    </div>
+                                </div>
+
+
+                                <input type="submit" class="btn btn-info waves-effect waves-light" value="Tambah User">
                             </form>
 
 
@@ -76,29 +87,37 @@
                     name: {
                         required: true,
                     },
-                    mobile_no: {
-                        required: false,
+                    username: {
+                        required: true,
                     },
                     email: {
-                        required: false,
+                        required: true,
                     },
-                    address: {
-                        required: false,
+                    role: {
+                        required: true,
                     },
+                    password: {
+                        required: true,
+                    },
+
                 },
                 messages: {
                     name: {
                         required: 'Please Enter Your Name',
                     },
-                    mobile_no: {
-                        required: 'Please Enter Your Mobile Number',
+                    username: {
+                        required: 'Please Enter Your User Name and Must Unique',
                     },
                     email: {
                         required: 'Please Enter Your Email',
                     },
-                    address: {
-                        required: 'Please Enter Your Address',
+                    role: {
+                        required: 'Please Select One Role',
                     },
+                    password: {
+                        required: 'Please Enter Your Password',
+                    },
+
                 },
                 errorElement: 'span',
                 errorPlacement: function(error, element) {

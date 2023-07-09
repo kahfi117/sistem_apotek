@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use Auth;
 use Illuminate\Support\Carbon;
-use Image; 
+use Image;
 use App\Models\Payment;
 use App\Models\PaymentDetail;
 
@@ -28,24 +28,15 @@ class CustomerController extends Controller
 
     public function CustomerStore(Request $request){
 
-        $image = $request->file('customer_image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension(); // 343434.png
-        Image::make($image)->resize(200,200)->save('upload/customer/'.$name_gen);
-        $save_url = 'upload/customer/'.$name_gen;
-
         Customer::insert([
             'name' => $request->name,
-            'mobile_no' => $request->mobile_no,
-            'email' => $request->email,
-            'address' => $request->address,
-            'customer_image' => $save_url ,
             'created_by' => Auth::user()->id,
             'created_at' => Carbon::now(),
 
         ]);
 
          $notification = array(
-            'message' => 'Customer Inserted Successfully', 
+            'message' => 'Customer Inserted Successfully',
             'alert-type' => 'success'
         );
 
@@ -65,51 +56,20 @@ class CustomerController extends Controller
     public function CustomerUpdate(Request $request){
 
         $customer_id = $request->id;
-        if ($request->file('customer_image')) {
-
-        $image = $request->file('customer_image');
-        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension(); // 343434.png
-        Image::make($image)->resize(200,200)->save('upload/customer/'.$name_gen);
-        $save_url = 'upload/customer/'.$name_gen;
 
         Customer::findOrFail($customer_id)->update([
             'name' => $request->name,
-            'mobile_no' => $request->mobile_no,
-            'email' => $request->email,
-            'address' => $request->address,
-            'customer_image' => $save_url ,
             'updated_by' => Auth::user()->id,
             'updated_at' => Carbon::now(),
 
         ]);
-
-         $notification = array(
-            'message' => 'Customer Updated with Image Successfully', 
-            'alert-type' => 'success'
-        );
-
-        return redirect()->route('customer.all')->with($notification);
-             
-        } else{
-
-          Customer::findOrFail($customer_id)->update([
-            'name' => $request->name,
-            'mobile_no' => $request->mobile_no,
-            'email' => $request->email,
-            'address' => $request->address, 
-            'updated_by' => Auth::user()->id,
-            'updated_at' => Carbon::now(),
-
-        ]);
-
-         $notification = array(
-            'message' => 'Customer Updated without Image Successfully', 
+        $notification = array(
+            'message' => 'Customer Updated Successfully',
             'alert-type' => 'success'
         );
 
         return redirect()->route('customer.all')->with($notification);
 
-        } // end else 
 
     } // End Method
 
@@ -123,7 +83,7 @@ class CustomerController extends Controller
         Customer::findOrFail($id)->delete();
 
         $notification = array(
-            'message' => 'Customer Deleted Successfully', 
+            'message' => 'Customer Deleted Successfully',
             'alert-type' => 'success'
         );
 
@@ -162,10 +122,10 @@ class CustomerController extends Controller
         if ($request->new_paid_amount < $request->paid_amount) {
 
             $notification = array(
-            'message' => 'Sorry You Paid Maximum Value', 
+            'message' => 'Sorry You Paid Maximum Value',
             'alert-type' => 'error'
         );
-        return redirect()->back()->with($notification); 
+        return redirect()->back()->with($notification);
         } else{
             $payment = Payment::where('invoice_id',$invoice_id)->first();
             $payment_details = new PaymentDetail();
@@ -190,10 +150,10 @@ class CustomerController extends Controller
             $payment_details->save();
 
               $notification = array(
-            'message' => 'Invoice Update Successfully', 
+            'message' => 'Invoice Update Successfully',
             'alert-type' => 'success'
         );
-        return redirect()->route('credit.customer')->with($notification); 
+        return redirect()->route('credit.customer')->with($notification);
 
 
         }
@@ -245,4 +205,3 @@ class CustomerController extends Controller
 
 
 }
- 

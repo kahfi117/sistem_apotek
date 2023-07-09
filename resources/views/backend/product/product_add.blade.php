@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h4 class="card-title">Add Product Page </h4><br><br>
+                            <h4 class="card-title">Tambah Data Obat </h4><br><br>
 
 
 
@@ -18,7 +18,7 @@
                                 @csrf
 
                                 <div class="row mb-3">
-                                    <label for="example-text-input" class="col-sm-2 col-form-label">Product Name </label>
+                                    <label for="example-text-input" class="col-sm-2 col-form-label">Nama Obat </label>
                                     <div class="form-group col-sm-10">
                                         <input name="name" class="form-control" type="text">
                                     </div>
@@ -27,12 +27,12 @@
 
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Supplier Name </label>
+                                    <label class="col-sm-2 col-form-label">Jenis Obat </label>
                                     <div class="col-sm-10">
-                                        <select name="supplier_id" class="form-select" aria-label="Default select example">
+                                        <select name="unit_id" class="form-select" aria-label="Default select example">
                                             <option selected="">Open this select menu</option>
-                                            @foreach ($supplier as $supp)
-                                                <option value="{{ $supp->id }}">{{ $supp->name }}</option>
+                                            @foreach ($unit as $units)
+                                                <option value="{{ $units->id }}">{{ $units->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -40,7 +40,7 @@
                                 <!-- end row -->
 
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Category Name </label>
+                                    <label class="col-sm-2 col-form-label">Kategori Obat </label>
                                     <div class="col-sm-10">
                                         <select name="category_id" class="form-select" aria-label="Default select example">
                                             <option selected="">Open this select menu</option>
@@ -53,7 +53,7 @@
                                 <!-- end row -->
 
 
-                                <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Product">
+                                <input type="submit" class="btn btn-info waves-effect waves-light" value="Tambah Obat">
                             </form>
 
 
@@ -75,9 +75,6 @@
                     name: {
                         required: true,
                     },
-                    supplier_id: {
-                        required: true,
-                    },
                     unit_id: {
                         required: true,
                     },
@@ -88,9 +85,6 @@
                 messages: {
                     name: {
                         required: 'Please Enter Your Product Name',
-                    },
-                    supplier_id: {
-                        required: 'Please Select One Supplier',
                     },
                     unit_id: {
                         required: 'Please Select One Unit',

@@ -7,12 +7,12 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0">Laporan Stock Obat</h4>
+                        <h4 class="mb-sm-0">Faktur Pembelian</h4>
 
                         <div class="page-title-right">
                             <ol class="breadcrumb m-0">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);"> </a></li>
-                                <li class="breadcrumb-item active">Laporan Stock Obat</li>
+                                <li class="breadcrumb-item active">Pembelian Obat</li>
                             </ol>
                         </div>
 
@@ -29,34 +29,18 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="invoice-title">
-
+                                        <h4 class="float-end font-size-16"><strong>Nomor Pembelian #
+                                                {{ $purchase->purchase_no }}</strong></h4>
                                         @include('backend.pdf.title')
                                         <div class="col-6 mt-4 text-end">
                                             <address>
-
+                                                <strong>Tanggal Pembelian:</strong><br>
+                                                {{ date('d-m-Y', strtotime($purchase->date)) }} <br><br>
                                             </address>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-                            <div class="row">
-                                <div class="col-12">
-                                    <div>
-                                        <div class="p-2">
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div> <!-- end row -->
-
-
-
-
 
                             <div class="row">
                                 <div class="col-12">
@@ -70,72 +54,64 @@
                                                     <thead>
                                                         <tr>
                                                             <td><strong>No </strong></td>
-                                                            <td class="text-center"><strong>Kategori</strong>
-                                                            </td>
+                                                            <td class="text-center"><strong>Kategori</strong></td>
                                                             <td class="text-center"><strong>Nama Obat</strong>
                                                             </td>
-                                                            <td class="text-center"><strong>Satuan</strong>
+                                                            <td class="text-center"><strong>Jenis</strong>
                                                             </td>
-                                                            <td class="text-center"><strong>In Qty </strong>
+                                                            <td class="text-center"><strong>Quantity</strong>
                                                             </td>
-                                                            <td class="text-center"><strong>Out Qty </strong>
+                                                            <td class="text-end"><strong>Harga Satuan</strong>
                                                             </td>
-                                                            <td class="text-center"><strong>Stock </strong>
+                                                            <td class="text-end"><strong>Total Harga</strong>
                                                             </td>
-
 
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <!-- foreach ($order->lineItems as $line) or some such thing here -->
 
-
-                                                        @foreach ($allData as $key => $item)
-                                                            @php
-                                                                $buying_total = App\Models\Purchase::where('category_id', $item->category_id)
-                                                                    ->where('product_id', $item->id)
-                                                                    ->where('status', '1')
-                                                                    ->sum('buying_qty');
-
-                                                                $selling_total = App\Models\InvoiceDetail::where('category_id', $item->category_id)
-                                                                    ->where('product_id', $item->id)
-                                                                    ->where('status', '1')
-                                                                    ->sum('selling_qty');
-                                                            @endphp
-
-
+                                                        @php
+                                                            $total_sum = '0';
+                                                        @endphp
+                                                        @foreach ($dataBuying as $key => $details)
                                                             <tr>
-                                                                <td class="text-center"> {{ $key + 1 }} </td>
+                                                                <td class="text-center">{{ $key + 1 }}</td>
+                                                                <td class="text-center">{{ $details['category']['name'] }}
                                                                 </td>
-                                                                <td class="text-center"> {{ $item['category']['name'] }}
+                                                                <td class="text-center">{{ $details['product']['name'] }}
                                                                 </td>
-                                                                <td class="text-center"> {{ $item->name }} </td>
-                                                                <td class="text-center"> {{ $item['unit']['name'] }} </td>
-                                                                <td class="text-center"> {{ $buying_total }} </td>
-                                                                <td class="text-center"> {{ $selling_total }} </td>
-                                                                <td class="text-center">
-                                                                    {{ $buying_total - $selling_total ?? 0 }} </td>
-
+                                                                <td class="text-center">{{ $details['product']['unit']['name'] }}
+                                                                </td>
+                                                                <td class="text-center">{{ $details->buying_qty }}</td>
+                                                                <td class="text-end">Rp.{{ number_format($details->unit_price,2,',','.') }}</td>
+                                                                <td class="text-end">Rp.{{ number_format($details->buying_price,2,',','.') }}</td>
 
                                                             </tr>
+                                                            @php
+                                                                $total_sum += $details->buying_price;
+                                                            @endphp
                                                         @endforeach
-
-
+                                                        <tr>
+                                                            <td class="thick-line"></td>
+                                                            <td class="thick-line"></td>
+                                                            <td class="thick-line"></td>
+                                                            <td class="thick-line"></td>
+                                                            <td class="thick-line"></td>
+                                                            <td class="thick-line text-center">
+                                                                <strong>Subtotal</strong>
+                                                            </td>
+                                                            <td class="thick-line text-end">Rp. {{ number_format($total_sum,2,',','.')  }}</td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
 
-
-                                            @php
-                                                $date = new DateTime('now', new DateTimeZone('Asia/Makassar'));
-                                            @endphp
-                                            <i>Printing Time : {{ $date->format('F j, Y, g:i a') }}</i>
-
                                             <div class="d-print-none">
                                                 <div class="float-end">
-                                                    <a href="javascript:window.print()"
-                                                        class="btn btn-success waves-effect waves-light"><i
-                                                            class="fa fa-print"></i></a>
+                                                    <a href="javascript:window.print()" class="btn btn-success waves-effect waves-light">
+                                                        <i class="fa fa-print"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,11 +119,6 @@
 
                                 </div>
                             </div> <!-- end row -->
-
-
-
-
-
 
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Demo\DemoController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Pos\AnalisisController;
 use App\Http\Controllers\Pos\SupplierController;
 use App\Http\Controllers\Pos\CustomerController;
 use App\Http\Controllers\Pos\UnitController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Pos\PurchaseController;
 use App\Http\Controllers\Pos\DefaultController;
 use App\Http\Controllers\Pos\InvoiceController;
 use App\Http\Controllers\Pos\StockController;
+use App\Http\Controllers\UserController;
 
 Route::controller(DemoController::class)->group(function () {
     Route::get('/about', 'Index')->name('about.page')->middleware('check');
@@ -123,6 +125,8 @@ Route::controller(PurchaseController::class)->group(function () {
     Route::get('/daily/purchase/report', 'DailyPurchaseReport')->name('daily.purchase.report');
     Route::get('/daily/purchase/pdf', 'DailyPurchasePdf')->name('daily.purchase.pdf');
 
+    Route::get('/print/purchase/{id}', 'PurchasePrint')->name('print.purchase');
+
 });
 
 
@@ -146,6 +150,24 @@ Route::controller(InvoiceController::class)->group(function () {
 
 });
 
+
+// User All Route
+Route::controller(UserController::class)->group(function () {
+    Route::get('/user/all', 'index')->name('user.index');
+    Route::get('/user/add', 'add')->name('user.add');
+    Route::post('/user/store', 'store')->name('user.store');
+
+    Route::get('/user/edit/{id}', 'edit')->name('user.edit');
+    Route::post('/user/update', 'update')->name('user.update');
+
+    Route::get('/user/delete/{id}', 'delete')->name('user.delete');
+});
+
+// Analisis Controller
+
+Route::controller(AnalisisController::class)->group(function() {
+    Route::get('/analisis-abc', 'index')->name('analisis.index');
+});
 
 
 
@@ -184,6 +206,9 @@ Route::controller(DefaultController::class)->group(function () {
 Route::get('/', function () {
     return view('admin.index');
 })->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('admin.index');
+})->middleware(['auth']);
 
 require __DIR__.'/auth.php';
 

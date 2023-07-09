@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Pos;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Auth;
+use App\Models\Unit;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\Supplier;
-use Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
@@ -22,9 +22,9 @@ class ProductController extends Controller
 
     public function ProductAdd(){
 
-        $supplier = Supplier::all();
+        $unit = Unit::all();
         $category = Category::all();
-        return view('backend.product.product_add',compact('supplier','category'));
+        return view('backend.product.product_add',compact('unit','category'));
     } // End Method
 
 
@@ -33,8 +33,8 @@ class ProductController extends Controller
         Product::insert([
 
             'name' => $request->name,
-            'supplier_id' => $request->supplier_id,
             'category_id' => $request->category_id,
+            'unit_id' => $request->unit_id,
             'quantity' => '0',
             'created_by' => Auth::user()->id,
             'created_at' => Carbon::now(),
@@ -52,11 +52,10 @@ class ProductController extends Controller
 
 
     public function ProductEdit($id){
-
-        $supplier = Supplier::all();
         $category = Category::all();
+        $unit = Unit::all();
         $product = Product::findOrFail($id);
-        return view('backend.product.product_edit',compact('product','supplier','category','unit'));
+        return view('backend.product.product_edit',compact('product','category','unit'));
     } // End Method
 
 
@@ -68,7 +67,7 @@ class ProductController extends Controller
          Product::findOrFail($product_id)->update([
 
             'name' => $request->name,
-            'supplier_id' => $request->supplier_id,
+            'unit_id' => $request->unit_id,
             'category_id' => $request->category_id,
             'updated_by' => Auth::user()->id,
             'updated_at' => Carbon::now(),
