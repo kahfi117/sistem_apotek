@@ -10,12 +10,12 @@
     <div class="card">
         <div class="card-body">
 
-            <h4 class="card-title">Daily Purchase Report </h4><br><br>
-             
+            <h4 class="card-title">Laporan Pembelian </h4><br><br>
+
 <form method="GET" action="{{ route('daily.purchase.pdf') }}" target="_blank" id="myForm">
     <div class="row">
 
-      
+
 
         <div class="col-md-4">
             <div class="md-3 form-group">
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-         
+
         <div class="col-md-4">
             <div class="md-3 form-group">
                 <label for="example-text-input" class="form-label">End Date</label>
@@ -38,38 +38,38 @@
              <button type="submit" class="btn btn-info">Search</button>
             </div>
         </div>
-  
 
 
-    </div> <!-- // end row  --> 
+
+    </div> <!-- // end row  -->
 
     </form>
-           
+
         </div> <!-- End card-body -->
-  
+
 
 
     </div>
 </div> <!-- end col -->
 </div>
- 
+
 
 
 </div>
 </div>
- 
- 
+
+
 <script type="text/javascript">
     $(document).ready(function (){
         $('#myForm').validate({
             rules: {
                 start_date: {
                     required : true,
-                }, 
+                },
                  end_date: {
                     required : true,
                 },
-                 
+
             },
             messages :{
                 start_date: {
@@ -78,9 +78,9 @@
                 end_date: {
                     required : 'Please Select End Date',
                 },
-                
+
             },
-            errorElement : 'span', 
+            errorElement : 'span',
             errorPlacement: function (error,element) {
                 error.addClass('invalid-feedback');
                 element.closest('.form-group').append(error);
@@ -93,9 +93,9 @@
             },
         });
     });
-    
+
 </script>
 
 
- 
-@endsection 
+
+@endsection
