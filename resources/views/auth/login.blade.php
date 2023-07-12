@@ -33,11 +33,11 @@
                     <div class="text-center mt-2">
                         <div class="mb-1">
                             <a href="#" class="auth-logo">
-                                <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm-light"
-                                    height="30">
+                                <img src="{{ asset('logo/toko-rb.png') }}" alt="logo-sm-light"
+                                    height="50">
                                     <span class="text-black">
                                         <b>
-                                            Gisella Farma
+                                           Apotek Gisella Farma
                                         </b>
                                     </span>
                             </a>

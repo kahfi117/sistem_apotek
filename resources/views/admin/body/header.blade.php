@@ -15,12 +15,12 @@
 
                   <a href="#" class="logo logo-light">
                       <span class="logo-sm text-white">
-                          <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm-light"
-                              height="22">
+                          <img src="{{ asset('logo/toko-rb.png') }}" alt="logo-sm-light"
+                              height="40">
                       </span>
                       <span class="logo-lg text-white">
-                        <img src="{{ asset('backend/assets/images/logo-sm.png') }}" alt="logo-sm-light"
-                        height="20">
+                        <img src="{{ asset('logo/toko-rb.png') }}" alt="logo-sm-light"
+                        height="35">
                               Gisella Farma
                       </span>
                   </a>
