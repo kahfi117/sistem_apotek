@@ -17,7 +17,7 @@ class StockController extends Controller
     public function StockReport()
     {
 
-        $allData = Product::orderBy('category_id', 'asc')->get();
+        $allData = Product::withTrashed()->orderBy('category_id', 'asc')->get();
         return view('backend.stock.stock_report', compact('allData'));
     } // End Method
 
