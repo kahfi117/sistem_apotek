@@ -10,7 +10,7 @@
                         <h4 class="mb-sm-0">Faktur Pembelian</h4>
 
                         <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
+                            <ol class="m-0 breadcrumb">
                                 <li class="breadcrumb-item"><a href="javascript: void(0);"> </a></li>
                                 <li class="breadcrumb-item active">Pembelian Obat</li>
                             </ol>
@@ -32,7 +32,7 @@
                                         <h4 class="float-end font-size-16"><strong>Nomor Pembelian #
                                                 {{ $purchase->purchase_no }}</strong></h4>
                                         @include('backend.pdf.title')
-                                        <div class="col-6 mt-4 text-end">
+                                        <div class="mt-4 col-6 text-end">
                                             <address>
                                                 <strong>Tanggal Pembelian:</strong><br>
                                                 {{ date('d-m-Y', strtotime($purchase->date)) }} <br><br>
@@ -77,7 +77,7 @@
                                                         @foreach ($dataBuying as $key => $details)
                                                             <tr>
                                                                 <td class="text-center">{{ $key + 1 }}</td>
-                                                                <td class="text-center">{{ $details['category']['name'] }}
+                                                                <td class="text-center">{{ $details['product']['category']['name'] }}
                                                                 </td>
                                                                 <td class="text-center">{{ $details['product']['name'] }}
                                                                 </td>
@@ -98,7 +98,7 @@
                                                             <td class="thick-line"></td>
                                                             <td class="thick-line"></td>
                                                             <td class="thick-line"></td>
-                                                            <td class="thick-line text-center">
+                                                            <td class="text-center thick-line">
                                                                 <strong>Subtotal</strong>
                                                             </td>
                                                             <td class="thick-line text-end">Rp. {{ number_format($total_sum,2,',','.')  }}</td>
