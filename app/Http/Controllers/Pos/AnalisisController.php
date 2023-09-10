@@ -32,4 +32,35 @@ class AnalisisController extends Controller
 
         // dd($data, $totalPendapatan);
     }
+
+    public function choose()
+    {
+        return view('backend.analisis.choose');
+    }
+
+    public function analisisByMonth(Request $request)
+    {
+        $periode = $request->periode;
+        $year = date("Y", strtotime($periode));
+        $month = date("m", strtotime($periode));
+
+        $data = InvoiceDetail::with('product')
+            ->selectRaw('sum(selling_qty) as qty, sum(selling_price) as price, product_id, date')
+            ->groupBy('product_id')
+            ->orderBy('price', 'desc')
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->groupBy('date')
+            ->get();
+
+        // dd($data, $request->periode);
+
+        $totalPendapatan = InvoiceDetail::selectRaw('sum(selling_price) as price')
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->first()
+            ->price;
+
+        return view('backend.analisis.analisis', compact('data', 'totalPendapatan'));
+    }
 }

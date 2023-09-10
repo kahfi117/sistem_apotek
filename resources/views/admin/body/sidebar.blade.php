@@ -121,6 +121,13 @@
                          </ul>
                      </li>
                  @endif
+                 <li class="menu-title">Analisis</li>
+                 <li>
+                     <a href="{{ route('analisis.choose') }}" class="waves-effect">
+                         <i class="ri-line-chart-line"></i>
+                         <span>Analisis ABC</span>
+                     </a>
+                 </li>
 
 
              </ul>
